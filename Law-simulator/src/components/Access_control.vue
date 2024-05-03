@@ -1,10 +1,13 @@
 <script>
 
 export default{
-        props:{
-          test_variable: Object,
-          required: false,
-        },
+  props:{
+    authErrorFlag:{
+    type: Boolean,
+    default: false
+      }
+    },
+  
   data()
   {
     return{ registation: false,
@@ -30,7 +33,7 @@ export default{
       if (this.userSurname ==='' && this.registation) alert("Введите фамилию");
       if (this.userEmail === '') alert("Введите Email");
       if (this.userPassword === '') alert("Введите пароль");
-      this.$emit('send-user-name', this.userName);
+      this.$emit('authorization_data', this.userName);
     }
   }
 }
@@ -41,21 +44,23 @@ export default{
 
 <body>
 
-  <form class="auth_div">
+  <form class="auth_div" @submit.prevent="sendUserData">
 
     <h1>Правовой тренажёр</h1>
 
     <div  class="authType_div" @click="switchRegistration()">
-      <h2 :class="{ active: !registation }" >Авторизация</h2>
-      <h2 :class="{ active: registation  }" >Регистрация</h2>
+      <h2 :class="{ 'active': !registation }" >Авторизация</h2>
+      <h2 :class="{ 'active': registation  }" >Регистрация</h2>
     </div>
 
-    <input id="input_Name"     type="text"      v-model="userName"      placeholder="Введите имя"     v-if="registation">
-    <input id="input_Surname"  type="text"      v-model="userSurname"   placeholder="Введите фамилию" v-if="registation">
-    <input id="input_Email"    type="email"     v-model="userEmail"     placeholder="Введите Email">
-    <input id="input_password" type="password"  v-model="userPassword"  placeholder="Введите пароль">
+    <input id="input_Name"     type="text"      v-model="userName"      placeholder="Введите имя"     v-if="registation" required>
+    <input id="input_Surname"  type="text"      v-model="userSurname"   placeholder="Введите фамилию" v-if="registation" required>
+    <input id="input_Email"    type="email"     v-model="userEmail"     placeholder="Введите Email" required>
+    <input id="input_password" type="password"  v-model="userPassword"  placeholder="Введите пароль" required>
 
-    <button @click="sendUserData()" type="submit" > {{ continueButtonName }} </button>
+    <p :class="['authError' ,{'activeAuthError': authErrorFlag }]">Ошибка авторизации</p>
+
+    <button type="submit"> {{ continueButtonName }} </button>
   </form>
 
 </body>
@@ -90,6 +95,7 @@ body{
 .authType_div{
   margin-bottom: 10px;
 }
+
 
 h1,h2{
   color: white;
@@ -127,6 +133,15 @@ input:focus{
   background-color: rgb(220, 220, 220);
   border-color: rgb(220, 220, 220);
   outline: none;
+}
+
+.authError{
+  display: none;
+}
+
+.activeAuthError{
+  display: block;
+  color: red;
 }
 
 button{
