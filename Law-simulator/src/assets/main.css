@@ -1,5 +1,11 @@
+*{
+    font-family: Arial, sans-serif;
+}
+
 body{
 overflow: hidden;
 margin: 0px;
 padding: 0px;
+height: 100vh;
+width: 100vw;
 }

@@ -1,66 +1,81 @@
 <script>
+import { mapGetters,mapActions,mapState,mapMutations } from 'vuex';
 
 export default{
-  props:{
-    authErrorFlag:{
-    type: Boolean,
-    default: false
+  computed: {
+    ...mapGetters(['getRegistrationStatus', 'getAuthErrorFlag', 'getcontinueButtonName']),
+    ...mapState({
+      userName: state => state.acces_control.userName,
+      userSurname: state => state.acces_control.userSurname,
+      userEmail: state => state.acces_control.userEmail,
+      userPassword: state => state.acces_control.userPassword
+    }),
+    userNameInput: {
+      get() {
+        return this.userName;
+      },
+      set(value) {
+        this.updateUserName(value);
       }
     },
-  
-  data()
-  {
-    return{ registation: false,
-            continueButtonName: 'Авторизация',
-            userName: '',
-            userSurname: '',
-            userEmail: '',
-            userPassword: ''}
-  },
-  methods:{
-    
-    switchRegistration(){
-      this.registation = !this.registation;
-      this.continueButtonName  = this.registation ? 'Регистрация': 'Авторизация' ;
-      this.userName = '';
-      this.userSurname = '';
-      this.userEmail = '';
-      this.userPassword = '';
+    userSurnameInput: {
+      get() {
+        return this.userSurname;
+      },
+      set(value) {
+        this.updateUserSurname(value);
+      }
     },
-
-    sendUserData(){
-      if (this.userName === '' && this.registation) alert("Введите имя");
-      if (this.userSurname ==='' && this.registation) alert("Введите фамилию");
-      if (this.userEmail === '') alert("Введите Email");
-      if (this.userPassword === '') alert("Введите пароль");
-      this.$emit('authorization_data', this.userName);
+    userEmailInput: {
+      get() {
+        return this.userEmail;
+      },
+      set(value) {
+        this.updateUserEmail(value);
+      }
+    },
+    userPasswordInput: {
+      get() {
+        return this.userPassword;
+      },
+      set(value) {
+        this.updateUserPassword(value);
+      }
     }
+  },
+  methods: {
+    ...mapActions(['switchRegistration', 'authUser']),
+    ...mapMutations({
+      updateUserName: 'updateUserName',
+      updateUserSurname: 'updateUserSurname',
+      updateUserEmail: 'updateUserEmail',
+      updateUserPassword: 'updateUserPassword'
+    })
   }
 }
-
 </script>
 
 <template>
 
 <body>
 
-  <form class="auth_div" @submit.prevent="sendUserData">
+  <form class="auth_div" @submit.prevent="authUser()">
 
     <h1>Правовой тренажёр</h1>
 
     <div  class="authType_div" @click="switchRegistration()">
-      <h2 :class="{ 'active': !registation }" >Авторизация</h2>
-      <h2 :class="{ 'active': registation  }" >Регистрация</h2>
+      <h2 :class="{ 'active': !this.$store.getters.getRegistrationStatus }" >Авторизация</h2>
+      <h2 :class="{ 'active': this.$store.getters.getRegistrationStatus  }" >Регистрация</h2>
     </div>
 
-    <input id="input_Name"     type="text"      v-model="userName"      placeholder="Введите имя"     v-if="registation" required>
-    <input id="input_Surname"  type="text"      v-model="userSurname"   placeholder="Введите фамилию" v-if="registation" required>
-    <input id="input_Email"    type="email"     v-model="userEmail"     placeholder="Введите Email" required>
-    <input id="input_password" type="password"  v-model="userPassword"  placeholder="Введите пароль" required>
+    <input id="input_Name"     type="text"      v-model="userNameInput"      placeholder="Введите имя"     v-if="this.$store.getters.getRegistrationStatus" required>
+    <input id="input_Surname"  type="text"      v-model="userSurnameInput"   placeholder="Введите фамилию" v-if="this.$store.getters.getRegistrationStatus" required>
+    <input id="input_Email"    type="email"     v-model="userEmailInput"     placeholder="Введите Email"  required>
+    <input id="input_password" type="password"  v-model="userPasswordInput"  placeholder="Введите пароль" required>
 
-    <p :class="['authError' ,{'activeAuthError': authErrorFlag }]">Ошибка авторизации</p>
+    <p :class="['authError' ,{'activeAuthError': this.$store.getters.getAuthErrorFlag }]">Ошибка авторизации</p>
 
-    <button type="submit"> {{ continueButtonName }} </button>
+    <button type="submit"> {{ this.$store.getters.getcontinueButtonName }} </button>
   </form>
 
 </body>
@@ -68,13 +83,7 @@ export default{
 
 <style scoped>
 
-*{
-  font-family: Arial, sans-serif;
-}
-
 body{
-  height: 100vh;
-  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
