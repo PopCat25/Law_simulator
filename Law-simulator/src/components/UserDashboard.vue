@@ -14,6 +14,7 @@ import DashboardHeader from './subcomponents/DashboardHeader.vue';
     <header>
         <DashboardHeader></DashboardHeader>
     </header>
+    <p>Это вкладка прогресса</p>
     <p>Ваше имя {{ this.$store.getters.getUserName }}</p>
     <p>Ваша Фамилия {{ this.$store.getters.getUserSurname }}</p>
     <p>Ваша почта {{ this.$store.getters.getUserEmail }}</p>
