@@ -12,7 +12,7 @@ import DashboardHeader from './subcomponents/DashboardHeader.vue';
     <header>
         <DashboardHeader></DashboardHeader>
     </header>
-    <P>Это вкладка о правовом тренажёре</P>
+    <p>Это вкладка о правовом тренажёре</p>
 </body>
 </template>
 

@@ -12,7 +12,7 @@ import DashboardHeader from './subcomponents/DashboardHeader.vue';
     <header>
         <DashboardHeader></DashboardHeader>
     </header>
-    <P>Это вкладка с кейсами</P>
+    <p>Это вкладка с кейсами</p>
 </body>
 </template>
 
