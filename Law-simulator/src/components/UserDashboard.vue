@@ -1,10 +1,11 @@
 <script>
 import { mapGetters } from 'vuex';
 import DashboardHeader from './subcomponents/DashboardHeader.vue';
+import WorkInProgress from './subcomponents/WorkInProgress.vue'
 
     export default{
-        components:{DashboardHeader},
-        computed: mapGetters(['getUserName','getUserSurname','getUserEmail','getUserPassword']),
+        components:{DashboardHeader,WorkInProgress},
+        computed: mapGetters(['getUserName','getUserSurname', 'getUserPatronymic','getUserEmail','getUserPassword']),
 }
 </script>
 
@@ -14,11 +15,10 @@ import DashboardHeader from './subcomponents/DashboardHeader.vue';
     <header>
         <DashboardHeader></DashboardHeader>
     </header>
-    <p>Это вкладка прогресса</p>
-    <p>Ваше имя {{ this.$store.getters.getUserName }}</p>
-    <p>Ваша Фамилия {{ this.$store.getters.getUserSurname }}</p>
-    <p>Ваша почта {{ this.$store.getters.getUserEmail }}</p>
-    <p>Ваш пароль {{ this.$store.getters.getUserPassword }}</p>
+
+    <div class="background">
+            <WorkInProgress></WorkInProgress>
+    </div>
 </body>
 </template>
 

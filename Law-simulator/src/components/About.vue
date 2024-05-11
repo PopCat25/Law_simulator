@@ -1,19 +1,23 @@
 <script>
 import DashboardHeader from './subcomponents/DashboardHeader.vue';
+import WorkInProgress from './subcomponents/WorkInProgress.vue';
 
     export default{
-        components:{DashboardHeader},
+        components:{DashboardHeader,WorkInProgress},
 }
 </script>
 
 <template>
     <body>
+
+        <header>
+            <DashboardHeader></DashboardHeader>
+        </header>
         
-    <header>
-        <DashboardHeader></DashboardHeader>
-    </header>
-    <p>Это вкладка о правовом тренажёре</p>
-</body>
+        <div class="background">
+            <WorkInProgress></WorkInProgress>
+        </div>
+    </body>
 </template>
 
 <style scoped>

@@ -1,8 +1,9 @@
 <script>
 import DashboardHeader from './subcomponents/DashboardHeader.vue';
+import WorkInProgress from './subcomponents/WorkInProgress.vue';
 
     export default{
-        components:{DashboardHeader},
+        components:{DashboardHeader,WorkInProgress},
 }
 </script>
 
@@ -12,7 +13,11 @@ import DashboardHeader from './subcomponents/DashboardHeader.vue';
     <header>
         <DashboardHeader></DashboardHeader>
     </header>
-    <p>Это вкладка с кейсами</p>
+    
+    <div class="background">
+            <WorkInProgress></WorkInProgress>
+        </div>
+    
 </body>
 </template>
 

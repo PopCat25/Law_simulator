@@ -49,6 +49,9 @@ export default {
         updateUserSurname(state, newSurname) {
             state.userSurname = newSurname;
         },
+        updateUserPatronymic(state, newPatronymic){
+            state.userPatronymic = newPatronymic;
+        },
         updateUserEmail(state, newEmail) {
             state.userEmail = newEmail;
         },
@@ -65,6 +68,7 @@ export default {
         continueButtonName: 'Авторизация',
         userName: '',
         userSurname: '',
+        userPatronymic: '',
         userEmail: '',
         userPassword: ''
 
@@ -84,6 +88,9 @@ export default {
         },
         getUserSurname(state){
             return state.userSurname
+        },
+        getUserPatronymic(state){
+            return state.userPatronymic
         },
         getUserEmail(state){
             return state.userEmail
