@@ -7,11 +7,11 @@ import WorkInProgress from './subcomponents/WorkInProgress.vue'
 export default {
     components: { DashboardHeader, PersonalData, WorkInProgress },
     computed: {
-        ...mapGetters(['getCurrentTab']),
+        ...mapGetters(['getCurrentProfileTab']),
     },
 
     methods: {
-        ...mapActions(['setCurrentTab']),
+        ...mapActions(['setCurrentProfileTab']),
     },
 }
 </script>
@@ -23,14 +23,14 @@ export default {
     
         <div class="background">
     
-            <div class="backplate dataType">
-                <p @click="setCurrentTab(0)" :class="{'activeTab': getCurrentTab  == 0}">Личная информация</p>
-                <p @click="setCurrentTab(1)" :class="{'activeTab': getCurrentTab  == 1}">Дополнительная информация</p>
-                <p @click="setCurrentTab(2)" :class="{'activeTab': getCurrentTab  == 2}">Дополнительная информация 1</p>
+            <div class="backplate tab">
+                <p @click="setCurrentProfileTab(0)" :class="{'activeTab': getCurrentProfileTab  == 0}">Личная информация</p>
+                <p @click="setCurrentProfileTab(1)" :class="{'activeTab': getCurrentProfileTab  == 1}">Дополнительная информация</p>
+                <p @click="setCurrentProfileTab(2)" :class="{'activeTab': getCurrentProfileTab  == 2}">Дополнительная информация 1</p>
             </div>
 
-            <PersonalData v-if="getCurrentTab == 0"></PersonalData>
-            <WorkInProgress v-if="getCurrentTab == 1||getCurrentTab == 2"></WorkInProgress>
+            <PersonalData v-if="getCurrentProfileTab == 0"></PersonalData>
+            <WorkInProgress v-if="getCurrentProfileTab == 1||getCurrentProfileTab == 2"></WorkInProgress>
         </div>
     </body>
 </template>
@@ -38,19 +38,5 @@ export default {
 <style scoped>
 body {
     overflow: auto;
-}
-
-.dataType {
-    display: flex;
-    gap: 10px;
-    color: #575757;
-    align-self: flex-start;
-    cursor: pointer;
-}
-
-.activeTab {
-    font-size: 110%;
-    color: rgb(0, 0, 0);
-    text-decoration: overline;
 }
 </style>

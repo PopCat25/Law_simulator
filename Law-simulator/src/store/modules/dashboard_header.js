@@ -11,6 +11,9 @@ import router from "@/router/router";
             async pushToUserDashboard(ctx){
                 router.push('/UserDashboard');
             },
+            async pushToEditor(ctx){
+                router.push('/Editor')
+            },
             async pushToUserProfile(ctx){
                 router.push('/Profile');
             },

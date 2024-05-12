@@ -1,13 +1,13 @@
 
 export default{
     actions:{
-        async setCurrentProfileTab(ctx,newCurrent){
-            ctx.commit('updateCurrentProfileTab',newCurrent)
+        async setCurrentEditorTab(ctx,newCurrent){
+            ctx.commit('updateCurrentEditorTab',newCurrent)
         },
     },
 
     mutations:{
-        updateCurrentProfileTab(state, newCurrent){
+        updateCurrentEditorTab(state, newCurrent){
             state.currentTab = newCurrent
         },
     },
@@ -17,7 +17,7 @@ export default{
     },
 
     getters:{
-        getCurrentProfileTab(state){
+        getCurrentEditorTab(state){
             return state.currentTab
         },
         

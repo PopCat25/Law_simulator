@@ -16,7 +16,7 @@ import WorkInProgress from './subcomponents/WorkInProgress.vue';
     
     <div class="background">
             <WorkInProgress></WorkInProgress>
-        </div>
+    </div>
     
 </body>
 </template>

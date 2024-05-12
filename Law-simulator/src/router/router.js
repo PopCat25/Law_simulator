@@ -4,6 +4,7 @@ import { createRouter,createWebHistory } from "vue-router"
 import About from "@/components/About.vue"
 import Cases from "../components/Cases.vue"
 import Profile from "../components/Profile.vue"
+import Editor from "@/components/Editor.vue"
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
     {
         path:'/Cases',
         component: Cases,
+    },
+
+    {
+        path:'/Editor',
+        component: Editor,
     },
 
     {

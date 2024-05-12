@@ -14,7 +14,7 @@ export default{
     },
 
     methods:{
-        ...mapActions(['pushToAbout','pushToCases','pushToUserDashboard','pushToUserProfile']),
+        ...mapActions(['pushToAbout','pushToCases','pushToUserDashboard','pushToUserProfile', 'pushToEditor']),
     }
 }
 </script>
@@ -26,6 +26,7 @@ export default{
             <p class="about hover" :class="{'currentPage': this.$route.path == '/About'}" @click="pushToAbout()">О Правовом тренажёре</p>
             <p class="hover" :class="{'currentPage': this.$route.path == '/Cases'}" @click="pushToCases()" >Пройти кейсы</p>
             <p class="hover" :class="{'currentPage':this.$route.path == '/UserDashboard'}" @click="pushToUserDashboard()" > Прогресс</p>
+            <p class="hover" :class="{'currentPage':this.$route.path == '/Editor'}" @click="pushToEditor()">Редактор кейсов</p>
         </div>
         <div class="rightSide hover" :class="{'currentPage': this.$route.path == '/Profile'}"  @click="pushToUserProfile()">
             <img class="avatar" src="@/components/icons/9026108_user_icon.svg" alt="avatar">

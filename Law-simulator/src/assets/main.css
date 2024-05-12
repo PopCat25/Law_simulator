@@ -27,3 +27,17 @@ background-color: rgb(213, 244, 206);
     padding: 10px 10px 10px 10px;
     margin: 10px;
 }
+
+.tab {
+    display: flex;
+    gap: 10px;
+    color: #575757;
+    align-self: flex-start;
+    cursor: pointer;
+}
+
+.activeTab {
+    font-size: 110%;
+    color: rgb(0, 0, 0);
+    text-decoration: overline;
+}
