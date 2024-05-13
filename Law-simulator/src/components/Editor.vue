@@ -40,4 +40,6 @@ import CreateCase from './subcomponents/CreateCase.vue';
 body{
     overflow: auto;
 }
+
+
 </style>

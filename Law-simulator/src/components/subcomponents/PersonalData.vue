@@ -158,24 +158,7 @@ input {
     background-color: rgba(0, 0, 0, 0);
     font-size: medium;
 }
-
-button {
+button{
     float: right;
-    color: white;
-    font-weight: 600;
-    background-color: rgb(49, 129, 24);
-    border-radius: 10px;
-    border-color: rgb(49, 129, 24);
-    margin: 10px;
-    padding: 5px 20px 5px 20px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: rgb(41, 109, 20);
-}
-
-button:active {
-    background-color: rgb(30, 83, 13);
 }
 </style>
