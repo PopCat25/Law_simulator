@@ -19,14 +19,36 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(['updateActiveIndex',
-            'updateSlideName',
-            'deleteActiveSlide',
-            'appendSlide',
-            'updateEditIndex']),
+        ...mapMutations(['updateActiveIndex', 'updateSlideName', 'deleteActiveSlide', 'appendSlide', 'updateEditIndex', 'moveSlideUp', 'moveSlideDown']),
+        handleKeydown(event) {
+            console.log(document.activeElement)
+            console.log(event)
+            if(document.activeElement.classList.contains('slideName')){
+                switch (event.key) {
+                    case 'ArrowUp':
+                        this.moveSlideUp();
+                        break;
+                    case 'ArrowDown':
+                        this.moveSlideDown();
+                        break;
+                }
+            }
+        },
+        addKeydownListener() {
+            window.addEventListener('keydown', this.handleKeydown);
+        },
+        removeKeydownListener() {
+            window.removeEventListener('keydown', this.handleKeydown);
+        }
     },
+    mounted() {
+        this.removeKeydownListener(); // Удаляем обработчик, если он уже существует
+        this.addKeydownListener();    // Добавляем новый обработчик
+    },
+    beforeUnmount() {
+        this.removeKeydownListener(); // Удаляем обработчик при размонтировании компонента
+    }
 }
-
 </script>
 
 <template>
@@ -49,11 +71,8 @@ export default {
     flex-direction: column;
     justify-content: center;
     gap: 5px;
-    .sidebar {
-    flex-shrink: 0; /* Не сжимается */
-    flex-basis: 250px; /* Начальный размер, можно установить в зависимости от содержимого */
-    /* Остальные стили */
-}
+    flex-shrink: 0;
+    flex-basis: 250px;
 }
 
 .slideName {
@@ -62,6 +81,7 @@ export default {
     text-align: center;
     background-color: rgb(200, 200, 200);
     cursor: pointer;
+    position: relative;
 }
 
 .slideName:hover {

@@ -9,7 +9,7 @@ export default {
             if(x > 0.5){
                 console.log('not');
                 ctx.commit('upgradeauthErrorFlag', false)
-                router.push('/UserDashboard')
+                router.push('/Profile')
             }
             else{
                     console.log('ERROR');
