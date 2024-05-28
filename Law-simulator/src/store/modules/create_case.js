@@ -19,7 +19,8 @@ export default {
                 {
                     name: `Слайд ${lastSlideIndex + 1}`,
                     type: '',
-                    text: ''
+                    text: '',
+                    choices: []
                 });
             state.editIndex = lastSlideIndex;
             state.activeIndex = lastSlideIndex;
@@ -50,30 +51,43 @@ export default {
         updateSlideType(state, currentType){
             state.slides[state.activeIndex].type = currentType;
         },
+        updateSlideText(state, newText){
+            state.slides[state.activeIndex].text = newText;
+        },
+        appendSlideChoice(state, newChoice){
+            state.slides[state.activeIndex].choices.push(newChoice);
+        },
+        deleteSlideChoice(state,choiceIndex){
+            state.slides[state.activeIndex].choices.splice(choiceIndex, 1);
+        },
+        updateSlideChoice(state, payload) {
+            const { index, choice } = payload;
+            state.slides[state.activeIndex].choices[index] = choice;
+        },
     },
     state: {
 
         slides: [{
             name: 'Начало',
-            type: 'select',
+            type: 'choice',
             text: '',
-            buttons:[],
-            docs:[],
+            choices:[{
+                choiceText: 'testChoice',
+                errMessage: 'Это ошибка',
+            }],
             }, {
             name: 'Конец',
-            type: 'select',
+            type: 'fillDoc',
             text: '',
-            buttons:[],
-            docs:[],
+            choices:[],
             },
         ],
         editIndex: -1,
         activeIndex: -1,
         slideTypes: [
             { text: '--Выберите тип окна--', value: '' },
-            { text: 'Слайд выбора', value: 'select' },
+            { text: 'Слайд выбора', value: 'choice' },
             { text: 'Слайд документов', value: 'fillDoc' }],
-        selectedSlideType: '',
     },
     getters: {
         getSlides(state) {
@@ -88,7 +102,18 @@ export default {
         getSlideTypes(state) {
             return state.slideTypes;
         },
-        
+        getSlideName(state){
+            return state.slides[state.activeIndex].name;
+        },
+        getSlideType(state){
+            return state.slides[state.activeIndex].type;
+        },
+        getSlideText(state){
+            return state.slides[state.activeIndex].text;
+        },
+        getSlideChoice(state){
+            return state.slides[state.activeIndex].choices;
+        }
     },
 
     modules: {}

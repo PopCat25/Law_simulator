@@ -3,13 +3,12 @@ import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
 
 export default {
     computed: {
-        ...mapGetters(['getSlides', 'getEditIndex', 'getActiveIndex']),
+        ...mapGetters(['getSlides', 'getEditIndex', 'getActiveIndex','getSlideName']),
         slideNameInput: {
             get() {
                 if (this.getActiveIndex !== -1) {
-                    return this.getSlides[this.getActiveIndex].name;
+                    return this.getSlideName;
                 }
-                return `Слайд ${this.getSlides.length}`;
             },
             set(value) {
                 if (value.length !== 0) {
@@ -21,8 +20,6 @@ export default {
     methods: {
         ...mapMutations(['updateActiveIndex', 'updateSlideName', 'deleteActiveSlide', 'appendSlide', 'updateEditIndex', 'moveSlideUp', 'moveSlideDown']),
         handleKeydown(event) {
-            console.log(document.activeElement)
-            console.log(event)
             if(document.activeElement.classList.contains('slideName')){
                 switch (event.key) {
                     case 'ArrowUp':
@@ -57,7 +54,7 @@ export default {
         <button @click="deleteActiveSlide">Удалить слайд</button>
 
         <div v-for="(slide, index) in getSlides" :key="index" @click="updateActiveIndex(index)"
-            @dblclick="updateEditIndex(index)" :class="['slideName', { 'activeSlide': index == getActiveIndex }]">
+            @dblclick="updateEditIndex(index)" :class="['slideName', { 'activeSlide': index == getActiveIndex }]" tabindex="0">
             <p v-if="index != getEditIndex">{{ slide.name }}</p>
             <input v-else v-focus v-model.lazy="slideNameInput" @blur="updateEditIndex(-1)"
                 @keyup.enter="updateEditIndex(-1)" @keyup.esc="updateEditIndex(-1)">
@@ -85,11 +82,11 @@ export default {
 }
 
 .slideName:hover {
-    background-color: rgb(180, 180, 180);
+    background-color: rgb(170, 170, 170);
 }
 
 .slideName:active {
-    background-color: rgb(160, 160, 160);
+    background-color: rgb(150, 150, 150);
 }
 
 .activeSlide {

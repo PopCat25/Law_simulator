@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<svg width="50" height="50" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" enable-background="new 0 0 50 50" version="1.1" xml:space="preserve">
+ <g class="layer">
+  <title>Layer 1</title>
+  <rect fill="none" height="50" id="svg_1" width="50" y="0.5"/>
+  <line fill="none" id="svg_2" stroke="#39a56d" stroke-miterlimit="10" stroke-width="4" x1="9" x2="41" y1="25" y2="25"/>
+  <line fill="none" id="svg_3" stroke="#39a56d" stroke-miterlimit="10" stroke-width="4" transform="matrix(1 0 0 1 0 0)" x1="25" x2="25" y1="9" y2="41"/>
+ </g>
+</svg>

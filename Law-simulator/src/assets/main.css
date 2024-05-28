@@ -37,6 +37,7 @@ button:active {
     background-color: rgba(255, 255, 255, 1);
     margin: 40px;
     border-radius: 20px;
+    max-width: 95%;
 }
 
 .backplate {
@@ -45,6 +46,7 @@ button:active {
     box-shadow: 10px 10px 10px 1px rgb(230, 230, 230);
     padding: 10px 10px 10px 10px;
     margin: 10px;
+    max-width: 95%;
 }
 
 .tab {
