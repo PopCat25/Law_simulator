@@ -26,6 +26,7 @@ export default {
 .creator {
     display: flex;
     align-items: flex-start; /* Выравнивание элементов по началу контейнера */
+    justify-content: space-around;
 }
 
 </style>

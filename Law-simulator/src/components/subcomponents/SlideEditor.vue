@@ -1,7 +1,11 @@
 <script>
-import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
+import Editor from '@tinymce/tinymce-vue';
 
 export default {
+    components: {
+        Editor
+    },
     data() {
         return {
             isModalVisible: false,
@@ -10,6 +14,21 @@ export default {
             newChoiceText: '',
             newErrorMessage: '',
             emptyNameFlag: false,
+            editorInit: {
+                height: 300,
+                width: '100%',
+                menubar: false,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar:
+                    'undo redo | formatselect | bold underline italic backcolor | \
+                    alignleft aligncenter alignright alignjustify | \
+                    bullist numlist outdent indent | removeformat | help',
+                menubar: 'file edit view insert format tools'
+            }
         };
     },
     computed: {
@@ -114,7 +133,8 @@ export default {
                 </option>
             </select>
         </div>
-        <textarea class="text" v-model="slideTextInput"></textarea>
+        <!-- <textarea class="text" v-model="slideTextInput"></textarea> -->
+        <Editor v-model="slideTextInput" :init="editorInit" api-key="dghtrtfpm5jfvlzg7auirq3ncphh1se5otwnux8dl953sj38"></Editor>
         
         <div class="choicesDiv" v-if="slideTypeInput == 'choice'">
             <div class="choice" v-for="(choice, index) in getSlideChoice" :key="index">
@@ -145,6 +165,10 @@ export default {
 </template>
 
 <style scoped>
+.backplate{
+    width: 70vw;
+}
+
 .slideEditor {
     display: flex;
     gap: 10px;
@@ -247,6 +271,7 @@ button {
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1050; /*Ебаный тулбар TinyMCE вылазит поверх модального окна без этой строки */
 }
 
 .modalContent {

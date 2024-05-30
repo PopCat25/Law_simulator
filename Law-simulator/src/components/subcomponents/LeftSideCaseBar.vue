@@ -69,7 +69,7 @@ export default {
     justify-content: center;
     gap: 5px;
     flex-shrink: 0;
-    flex-basis: 250px;
+    flex-basis: 15vw;
 }
 
 .slideName {
