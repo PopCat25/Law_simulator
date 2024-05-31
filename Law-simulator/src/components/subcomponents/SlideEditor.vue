@@ -1,5 +1,5 @@
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 import Editor from '@tinymce/tinymce-vue';
 
 export default {
@@ -32,7 +32,15 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getSlideTypes', 'getActiveIndex', 'getSlides', 'getSlideName', 'getSlideType', 'getSlideText', 'getSlideChoice']),
+        ...mapGetters(['getSlideTypes', 'getActiveIndex', 'getSlides', 'getSlideName', 'getSlideType', 'getSlideText', 'getSlideChoice','getCaseName']),
+        caseNameInput:{
+            get(){
+                return this.getCaseName;
+            },
+            set(value){
+                this.updateCaseName(value);
+            }
+        },
         slideNameInput: {
             get() {
                 if (this.getActiveIndex !== -1) {
@@ -52,6 +60,7 @@ export default {
                 if (this.getActiveIndex !== -1) {
                     return this.getSlideType;
                 }
+                return this.getSlideTypes[0].value;
             },
             set(value) {
                 if (this.getActiveIndex !== -1) {
@@ -73,7 +82,8 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(['updateSlideName', 'updateSlideType', 'updateSlideText', 'appendSlideChoice', 'updateSlideChoice', 'deleteSlideChoice']),
+        ...mapMutations(['updateSlideName', 'updateSlideType', 'updateSlideText', 'appendSlideChoice', 'updateSlideChoice', 'deleteSlideChoice','updateCaseName']),
+        ...mapActions(['appendCase']),
         showModal(isEdit = false, index = null) {
             this.isEditMode = isEdit;
             this.currentChoiceIndex = index;
@@ -126,6 +136,7 @@ export default {
 <template>
     <div class="slideEditor">
         <div class="typeNameDiv">
+            <input class="caseName" placeholder="Название кейса" v-model="caseNameInput">
             <input class="slideType" v-model.lazy="slideNameInput">
             <select class="slideType" v-model="slideTypeInput">
                 <option v-for="slideTypes in getSlideTypes" :value="slideTypes.value">
@@ -149,7 +160,7 @@ export default {
             </div>
         </div>
 
-        <button>Создать кейс</button>
+        <button @click="appendCase">Создать кейс</button>
 
         <div v-if="isModalVisible" class="modal">
             <div class="modalContent">
@@ -184,9 +195,17 @@ export default {
     gap: 10px;
 }
 
+.caseName{
+    background-color: rgba(255, 255, 255, 0.5);
+    border: rgba(0, 0, 0, 0);
+    text-align: center;
+    font-size: larger;
+    cursor: auto;
+    border-radius: 5px;
+}
 .slideType {
     border-radius: 20px;
-    cursor: pointer;
+    cursor: auto;
 }
 
 .text {

@@ -11,8 +11,14 @@ import create_case from './modules/create_case'
 export default new Vuex.Store(
     {
         actions: {},
-        mutations: {},
-        state: {},
+        mutations: {
+            appendCase(state, newCase){
+                state.cases.push(newCase);
+            }
+        },
+        state: {
+            cases: []
+        },
         getters: {},
 
         modules:{

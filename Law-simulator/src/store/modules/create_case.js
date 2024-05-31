@@ -2,7 +2,31 @@
 
 export default {
     actions: {
+        async appendCase({ commit, state }) {
+            if (state.caseName === '') {
+                alert('Введите имя кейса');
+                return false;
+            }
 
+            const hasSlideWithoutType = state.slides.some(slide => {
+                if (slide.type === '') {
+                    alert('Есть слайды без типа');
+                    return true;
+                }
+                return false;
+            });
+
+            if (hasSlideWithoutType) {
+                return false;
+            }
+
+            const newCase = {
+                name: state.caseName,
+                slides: state.slides,
+            }
+
+            commit('appendCase', newCase, { root: true });
+        }
     },
     mutations: {
         updateEditIndex(state, index) {
@@ -64,9 +88,12 @@ export default {
             const { index, choice } = payload;
             state.slides[state.activeIndex].choices[index] = choice;
         },
+        updateCaseName(state, newCaseName){
+            state.caseName = newCaseName;
+        }
     },
     state: {
-
+        caseName: '',
         slides: [{
             name: 'Начало',
             type: 'choice',
@@ -113,6 +140,9 @@ export default {
         },
         getSlideChoice(state){
             return state.slides[state.activeIndex].choices;
+        },
+        getCaseName(state){
+            return state.caseName;
         }
     },
 
