@@ -3,9 +3,10 @@ import { mapActions, mapGetters } from 'vuex';
 import DashboardHeader from './subcomponents/DashboardHeader.vue';
 import WorkInProgress from './subcomponents/WorkInProgress.vue';
 import CreateCase from './subcomponents/CreateCase.vue';
+import EditCase from './subcomponents/EditCase.vue'
 
     export default{
-        components:{DashboardHeader, WorkInProgress, CreateCase},
+        components:{DashboardHeader, WorkInProgress, CreateCase ,EditCase},
 
         computed:{
             ...mapGetters(['getCurrentEditorTab'])
@@ -30,7 +31,7 @@ import CreateCase from './subcomponents/CreateCase.vue';
             </div>
 
             <CreateCase     v-if = "getCurrentEditorTab == 0"></CreateCase>
-            <WorkInProgress v-if = "getCurrentEditorTab == 1"></WorkInProgress>
+            <EditCase       v-if = "getCurrentEditorTab == 1"></EditCase>
 
         </div>
     </body>

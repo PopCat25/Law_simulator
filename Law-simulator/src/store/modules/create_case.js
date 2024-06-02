@@ -1,8 +1,8 @@
-
+import _ from 'lodash';
 
 export default {
     actions: {
-        async appendCase({ commit, state }) {
+        appendCase({ commit, state }) {
             if (state.caseName === '') {
                 alert('Введите имя кейса');
                 return false;
@@ -20,12 +20,30 @@ export default {
                 return false;
             }
 
+            if(state.slides.length == 0){
+                alert('В кейсе нет ни одного слайда');
+                return false;
+            }
+
             const newCase = {
-                name: state.caseName,
+                caseName: state.caseName,
                 slides: state.slides,
             }
 
-            commit('appendCase', newCase, { root: true });
+            if(state.editedCaseIndex == -1){
+                commit('appendCase', newCase, { root: true });
+            } else {
+                commit('deleteCase', state.editedCaseIndex, {root: true});
+                commit('appendCase', newCase, { root: true });
+            }
+            
+            commit('clearState');
+        },
+        getCaseForEdit(ctx, editedCaseIndex){
+            ctx.commit('updateEditedCaseIndex', editedCaseIndex);
+            let editedCase = _.cloneDeep(ctx.rootGetters.getCases[editedCaseIndex]);
+            ctx.state.caseName = editedCase.caseName;
+            ctx.state.slides = editedCase.slides;
         }
     },
     mutations: {
@@ -90,9 +108,19 @@ export default {
         },
         updateCaseName(state, newCaseName){
             state.caseName = newCaseName;
+        },
+        clearState(state){
+            state.caseName = '';
+            state.slides = [];
+            state.activeIndex = -1;
+            state.editedCaseIndex = -1;
+        },
+        updateEditedCaseIndex(state, newEditedCaseIndex){
+            state.editedCaseIndex = newEditedCaseIndex;
         }
     },
     state: {
+        editedCaseIndex: -1,
         caseName: '',
         slides: [{
             name: 'Начало',
@@ -143,6 +171,9 @@ export default {
         },
         getCaseName(state){
             return state.caseName;
+        },
+        getEditedCaseIndex(state){
+            return state.editedCaseIndex;
         }
     },
 

@@ -32,7 +32,10 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getSlideTypes', 'getActiveIndex', 'getSlides', 'getSlideName', 'getSlideType', 'getSlideText', 'getSlideChoice','getCaseName']),
+        ...mapGetters(['getSlideTypes', 'getActiveIndex', 'getSlides', 'getSlideName', 'getSlideType', 'getSlideText', 'getSlideChoice','getCaseName','getEditedCaseIndex']),
+        isDisabled(){
+            return this.getActiveIndex === -1;
+        },
         caseNameInput:{
             get(){
                 return this.getCaseName;
@@ -73,6 +76,7 @@ export default {
                 if (this.getActiveIndex !== -1) {
                     return this.getSlideText;
                 }
+                return '';
             },
             set(value) {
                 if (this.getActiveIndex !== -1) {
@@ -137,15 +141,15 @@ export default {
     <div class="slideEditor">
         <div class="typeNameDiv">
             <input class="caseName" placeholder="Название кейса" v-model="caseNameInput">
-            <input class="slideType" v-model.lazy="slideNameInput">
-            <select class="slideType" v-model="slideTypeInput">
+            <input class="slideType" v-model.lazy="slideNameInput" :disabled="isDisabled">
+            <select class="slideType" v-model="slideTypeInput" :disabled="isDisabled">
                 <option v-for="slideTypes in getSlideTypes" :value="slideTypes.value">
                     {{ slideTypes.text }}
                 </option>
             </select>
         </div>
         <!-- <textarea class="text" v-model="slideTextInput"></textarea> -->
-        <Editor v-model="slideTextInput" :init="editorInit" api-key="dghtrtfpm5jfvlzg7auirq3ncphh1se5otwnux8dl953sj38"></Editor>
+        <Editor v-model="slideTextInput" :init="editorInit" api-key="dghtrtfpm5jfvlzg7auirq3ncphh1se5otwnux8dl953sj38" :disabled="isDisabled"></Editor>
         
         <div class="choicesDiv" v-if="slideTypeInput == 'choice'">
             <div class="choice" v-for="(choice, index) in getSlideChoice" :key="index">
@@ -160,7 +164,7 @@ export default {
             </div>
         </div>
 
-        <button @click="appendCase">Создать кейс</button>
+        <button @click="appendCase">{{ this.getEditedCaseIndex < 0  ? 'Создать кейс':'Редактировать кейс' }}</button>
 
         <div v-if="isModalVisible" class="modal">
             <div class="modalContent">

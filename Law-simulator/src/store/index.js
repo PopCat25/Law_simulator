@@ -14,12 +14,19 @@ export default new Vuex.Store(
         mutations: {
             appendCase(state, newCase){
                 state.cases.push(newCase);
+            },
+            deleteCase(state, index){
+                state.cases.splice(index, 1);
             }
         },
         state: {
             cases: []
         },
-        getters: {},
+        getters: {
+            getCases(state){
+                return state.cases;
+            }
+        },
 
         modules:{
             acces_control,

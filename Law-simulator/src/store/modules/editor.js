@@ -3,6 +3,7 @@ export default{
     actions:{
         async setCurrentEditorTab(ctx,newCurrent){
             ctx.commit('updateCurrentEditorTab',newCurrent)
+            ctx.commit('clearState');
         },
     },
 
