@@ -33,8 +33,7 @@ export default {
             if(state.editedCaseIndex == -1){
                 commit('appendCase', newCase, { root: true });
             } else {
-                commit('deleteCase', state.editedCaseIndex, {root: true});
-                commit('appendCase', newCase, { root: true });
+                commit('editCase', [newCase, state.editedCaseIndex]);
             }
             
             commit('clearState');

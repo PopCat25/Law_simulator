@@ -17,6 +17,9 @@ export default new Vuex.Store(
             },
             deleteCase(state, index){
                 state.cases.splice(index, 1);
+            },
+            editCase(state, [newCase, index]){
+                state.cases.splice(index, 1, newCase);
             }
         },
         state: {
