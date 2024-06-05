@@ -36,7 +36,7 @@ export default {
 <template>
     <div style="display: flex; flex-direction: row;gap: 50px;">
         <div class="caseFilter backplate">
-            <p>Фильтры</p>
+            <p>Сортировка</p>
             <label>
                 Количество слайдов:
                 <select v-model="slideFilter">
