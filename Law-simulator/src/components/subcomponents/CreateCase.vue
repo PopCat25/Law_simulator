@@ -17,16 +17,26 @@ export default {
 
 <template>
     <div class="creator">
-        <LeftSideCaseBar class="backplate"></LeftSideCaseBar>
-        <SlideEditor class="backplate"></SlideEditor>
+        <LeftSideCaseBar class="backplate leftSide"></LeftSideCaseBar>
+        <SlideEditor class="backplate mainPlace"></SlideEditor>
     </div>
 </template>
 
 <style scoped>
 .creator {
-    display: flex;
-    align-items: flex-start; /* Выравнивание элементов по началу контейнера */
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: 0.18fr 0.85fr;
+    
 }
+.leftSide{
+    grid-column: 1;
+    align-self: flex-start;
+    flex-shrink: 0;
+    flex-grow: 0;
 
+}
+.mainPlace{
+    grid-column: 2;
+    align-self: flex-start;
+}
 </style>
