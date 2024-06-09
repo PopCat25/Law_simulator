@@ -1,23 +1,28 @@
 <template>
     <div class="container">
         <div class="leftSide backplate">
-            <button @click="$emit('updateEditIndex',-1)">Назад</button>
+            <button @click="leaveCase">Покинуть кейс</button>
             <p>Пройдено слайдов {{ currentSlideIndex }} из {{ playedCase.slides.length }}</p>
             <p>Количество ошибок: {{ errCount }}</p>
         </div>
-        
-        <div class="mainPlace backplate">
-            <div v-if="currentSlideData.type != 'fillDoc'" class="caseText" v-html="currentSlideData.text"></div>
-            <Editor v-else :init="editorInit" api-key="dghtrtfpm5jfvlzg7auirq3ncphh1se5otwnux8dl953sj38"
-            v-model="currentSlideText"></Editor>
 
-            <div class="btnDiv">
-                <div v-if="currentSlideData.type == 'fillDoc'" style="margin-top: 5vh;">
-                    <button  @click="filldockCheckHandler">Проверить</button>
-                    <button @click="resetEditor">Восстановить шаблон</button>
+        <div class="mainPlace backplate" :key="currentSlideIndex + currentSlideData.type + 'mainWindow'">
+            <h3 style=" align-self: center;">{{ currentSlideData.name }}</h3>
+            <div v-if="currentSlideData.type === 'choice'" :key="currentSlideData.type + currentSlideIndex + 'div'" class="caseText"
+                v-html="currentSlideData.text"></div>
+            <Editor v-if="currentSlideData.type === 'fillDoc'" :key="currentSlideData.type + currentSlideIndex + 'Editor'" :init="editorInit"
+                api-key="dghtrtfpm5jfvlzg7auirq3ncphh1se5otwnux8dl953sj38" v-model="currentSlideText"></Editor>
+
+            <div class="btnDiv" :key="currentSlideIndex + currentSlideData.type + '-buttons'">
+                <div v-if="currentSlideData.type === 'fillDoc'" style="margin-top: 5vh;"
+                    :key="currentSlideData.type + 'Buttons-' + currentSlideIndex">
+                    <button @click="filldockCheckHandler"
+                        :key="currentSlideData.type + '-checkBtn' + currentSlideIndex">Проверить</button>
+                    <button @click="resetEditor" :key="currentSlideData.type + '-restoreBtn' + currentSlideIndex">Восстановить
+                        шаблон</button>
                 </div>
-                <button v-else v-for="(btn,index) in currentSlideData.choices"
-                :key="index" @click="choiceCheckHandler(btn.errMessage)">{{ btn.choiceText }}</button>
+                <button v-else v-for="(btn, index) in currentSlideData.choices" :key="index + 'choiceBtn' + currentSlideData.type + currentSlideIndex"
+                    @click="choiceCheckHandler(btn.errMessage)">{{ btn.choiceText }}</button>
             </div>
         </div>
 
@@ -32,20 +37,29 @@
     <!-- <button @click="console.log(dockFilluserText)">Отладка</button> -->
     <!-- modals -->
 
+    <div v-if="endModalFlag" class="modal">
+        <div class="modalContent">
+            <h3>Поздравляем с завершением </h3>
+            <p>Вы прошли кейс за {{ caseTime }} секунд!</p>
+            <p>Вы совершили {{ errCount }} ошибок</p>
+            <button @click="closeEndModal">Ок</button>
+        </div>
+    </div>
+
     <div v-if="errorModalFlag" class="modal">
-        <div class="modalContent" >
+        <div class="modalContent">
             <h3>Ошибка</h3>
-            <p>{{errorModalText}}</p>
+            <p>{{ errorModalText }}</p>
             <button @click="closeErrModal">Ок</button>
         </div>
     </div>
 
     <div v-if="pauseModalFlag" class="modal">
-            <div class="modalContent">
-                <h3>Пауза</h3>
-                <button @click="invertModalPauseFlag">Продолжить</button>
-            </div>
+        <div class="modalContent">
+            <h3>Пауза</h3>
+            <button @click="invertModalPauseFlag">Продолжить</button>
         </div>
+    </div>
 
 </template>
 
@@ -53,7 +67,7 @@
 import Editor from '@tinymce/tinymce-vue';
 
 export default {
-    components:{Editor},
+    components: { Editor },
     props: {
         playedCase: Object
     },
@@ -66,6 +80,7 @@ export default {
             dockFilluserText: '',
             pauseModalFlag: false,
             errorModalFlag: false,
+            endModalFlag: false,
             errorModalText: '',
             editorInit: {
                 height: '50vh',
@@ -88,8 +103,8 @@ export default {
             const seconds = this.caseTime % 60;
             return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         },
-        currentSlideData:{
-            get(){
+        currentSlideData: {
+            get() {
                 return {
                     name: this.playedCase.slides[this.currentSlideIndex].name,
                     type: this.playedCase.slides[this.currentSlideIndex].type,
@@ -98,11 +113,11 @@ export default {
                 };
             }
         },
-        currentSlideText:{
-            get(){
+        currentSlideText: {
+            get() {
                 return this.dockFilluserText;
             },
-            set(value){
+            set(value) {
                 this.dockFilluserText = value;
             }
         }
@@ -120,7 +135,7 @@ export default {
             this.dockFilluserText = this.cleanText(this.currentSlideData.text);
         }
         this.timer = setInterval(() => {
-            if(!this.pauseModalFlag){
+            if (!this.pauseModalFlag) {
                 this.caseTime++;
             }
         }, 1000);
@@ -128,36 +143,97 @@ export default {
     beforeUnmount() {
         clearInterval(this.timer);
     },
-    methods:{
-        invertModalPauseFlag(){
+    methods: {
+        invertModalPauseFlag() {
             this.pauseModalFlag = !this.pauseModalFlag;
         },
-        closeErrModal(){
+        closeErrModal() {
             this.errorModalFlag = false;
         },
-        currentSlideIndexIncrement(){
-            if(this.currentSlideIndex >= this.playedCase.slides.length -1){
-                alert('вы закончили кейс')
+        openEndModal(){
+            this.endModalFlag = true;
+            clearInterval(this.timer);
+        },
+        closeEndModal(){
+            this.leaveCase();
+            this.endModalFlag = false;
+        },
+        currentSlideIndexIncrement() {
+            //Сюда можно добавить сбор статистики
+            if (this.currentSlideIndex >= this.playedCase.slides.length - 1) {
+                this.openEndModal();
             } else {
-                this.currentSlideIndex++
+                this.currentSlideIndex++;
             }
         },
-        choiceCheckHandler(errorText){
-            if(errorText.length != 0){
+        choiceCheckHandler(errorText) {
+            if (errorText.length != 0) {
                 this.errCount++;
                 this.errorModalFlag = true;
                 this.errorModalText = errorText;
-            } else{
-                this.currentSlideIndexIncrement()
+            } else {
+                this.currentSlideIndexIncrement();
             }
         },
-        filldockCheckHandler(){
-            this.currentSlideIndexIncrement()
+        filldockCheckHandler() {
+            const examinerText = this.currentSlideData.text;
+            const userInsert = this.currentSlideText;
+
+            // Извлечение ожидаемых слов из examinerText
+            const expectedWords = [];
+            const regex = /{([^}]*)}/g;
+            let match;
+            while ((match = regex.exec(examinerText)) !== null) {
+                expectedWords.push(match[1]);
+            }
+            console.log(expectedWords);
+
+            // Извлечение пользовательских слов из userInsert
+            const staticTextPattern = examinerText.replace(/{[^}]*}/g, '(.*)');
+            const studentRegex = new RegExp(staticTextPattern, 'g');
+            const userWords = [];
+            let studentMatch = studentRegex.exec(userInsert);
+            while (studentMatch) {
+                for (let i = 1; i < studentMatch.length; i++) {
+                    userWords.push(studentMatch[i].trim());
+                }
+                studentMatch = studentRegex.exec(userInsert);
+            }
+            console.log(userWords);
+
+            // Сравнение слов и подсчет ошибок
+            const errors = this.compareWords(expectedWords, userWords);
+
+            if (errors > 0) {
+                this.errCount += errors;
+                this.errorModalFlag = true;
+                this.errorModalText = `Вы допустили ${errors} ошибок(и). Попробуйте еще раз.`;
+            } else {
+                this.currentSlideIndexIncrement();
+            }
+        },
+        compareWords(expected, actual){
+            let errors = 0;
+            expected.forEach((word, index) => {
+                if (word !== actual[index]) {
+                    errors++;
+                }
+            });
+            return errors;
+        },
+        leaveCase(){
+            //Сюда можно добавить сбор статистики и учёт покинут ли кейс по окончанию
+            if(this.endModalFlag){
+                this.$emit('updateEditIndex', -1)
+            } else{
+                alert('Вы покидаете кейс не закончив его');
+                this.$emit('updateEditIndex', -1);
+            }
         },
         cleanText(text) {
             return text.replace(/{[^}]*}/g, '______');
         },
-        resetEditor(){
+        resetEditor() {
             this.dockFilluserText = this.cleanText(this.currentSlideData.text);
         },
     }
@@ -184,8 +260,8 @@ export default {
     flex-direction: column;
 }
 
-.caseText{
-    background-color:white;
+.caseText {
+    background-color: white;
     width: 100%;
     border-radius: 20px;
     height: 50vh;
@@ -195,7 +271,7 @@ export default {
     box-sizing: border-box;
 }
 
-.btnDiv{
+.btnDiv {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -209,18 +285,19 @@ export default {
     align-items: center;
 }
 
-.timer{
+.timer {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
 }
 
-.timerText{
+.timerText {
     font-weight: 600;
     font-size: large;
     grid-column: 3;
     align-self: center;
     justify-self: right;
 }
+
 /* Стили модального окна */
 .modal {
     position: fixed;
