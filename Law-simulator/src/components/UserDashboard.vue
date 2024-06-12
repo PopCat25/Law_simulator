@@ -2,9 +2,10 @@
 import { mapGetters } from 'vuex';
 import DashboardHeader from './subcomponents/DashboardHeader.vue';
 import WorkInProgress from './subcomponents/WorkInProgress.vue'
+import UserStatistics from './subcomponents/UserStatistics.vue';
 
     export default{
-        components:{DashboardHeader,WorkInProgress},
+        components:{DashboardHeader,WorkInProgress,UserStatistics},
         computed: mapGetters(['getUserName','getUserSurname', 'getUserPatronymic','getUserEmail','getUserPassword']),
 }
 </script>
@@ -17,18 +18,13 @@ import WorkInProgress from './subcomponents/WorkInProgress.vue'
     </header>
 
     <div class="background">
-            <WorkInProgress></WorkInProgress>
+            <UserStatistics></UserStatistics>
     </div>
 </body>
 </template>
 
 <style scoped>
 body{
-    background-color: rgb(213, 244, 206);
-}
-
-p{
-    text-align: center;
-    color: brown;
+    overflow: auto;
 }
 </style>

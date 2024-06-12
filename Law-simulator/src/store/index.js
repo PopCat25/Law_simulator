@@ -12,6 +12,7 @@ export default new Vuex.Store(
     {
         actions: {},
         mutations: {
+            //Case Mutations
             appendCase(state, newCase){
                 state.cases.push(newCase);
             },
@@ -20,14 +21,30 @@ export default new Vuex.Store(
             },
             editCase(state, [newCase, index]){
                 state.cases.splice(index, 1, newCase);
+            },
+
+            //Statistic Mutation
+            appendStatistic(state, [caseName, caseTime, errCount, endFlag]){
+                // console.log(caseName, caseTime, errCount, endModalFlag);
+                const newSatisticRecord = {
+                    caseName,
+                    caseTime,
+                    errCount,
+                    endFlag,
+                };
+                state.statisticData.push(newSatisticRecord);
             }
         },
         state: {
-            cases: []
+            cases: [],
+            statisticData: [],
         },
         getters: {
             getCases(state){
                 return state.cases;
+            },
+            getStatisticData(state){
+                return state.statisticData;
             }
         },
 

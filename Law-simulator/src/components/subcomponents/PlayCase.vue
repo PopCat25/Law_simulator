@@ -65,6 +65,7 @@
 
 <script>
 import Editor from '@tinymce/tinymce-vue';
+import { mapMutations } from 'vuex';
 
 export default {
     components: { Editor },
@@ -144,6 +145,8 @@ export default {
         clearInterval(this.timer);
     },
     methods: {
+        ...mapMutations(['appendStatistic']),
+
         invertModalPauseFlag() {
             this.pauseModalFlag = !this.pauseModalFlag;
         },
@@ -222,7 +225,7 @@ export default {
             return errors;
         },
         leaveCase(){
-            //Сюда можно добавить сбор статистики и учёт покинут ли кейс по окончанию
+            this.appendStatistic([this.playedCase.caseName, this.caseTime, this.errCount, this.endModalFlag]);
             if(this.endModalFlag){
                 this.$emit('updateEditIndex', -1)
             } else{

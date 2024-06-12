@@ -69,6 +69,10 @@ export default {
     margin-right: 1rem; 
 }
 
+select{
+    max-width: 95%;
+}
+
 .caseSelector {
     display: flex;
     flex-direction: column;
